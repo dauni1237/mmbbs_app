@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+		<script type="text/javascript" charset="utf-8" src="js/cordova-1.6.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/statusbarnotification.js"></script>
+        <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css" />
+        <link rel="stylesheet" href="css/mmbbs.min.css" />
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.mobile-1.1.0.min.js"></script>
+        <script>
+        	var db = window.openDatabase("mmbbs", "1.0", "mmbbs", 200000);
+            document.addEventListener("deviceready", onDeviceReady, false);
+			function onDeviceReady() {
+				db.transaction(function(t) {
+					//t.executeSql('DROP TABLE ind;'); 
+					t.executeSql('CREATE TABLE IF NOT EXISTS ind(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,typ INTEGER, savename TEXT);');
+					t.executeSql('INSERT INTO ind (savename) VALUES ("FIAE11E", 1);');
+					t.executeSql(
+						(
+							"SELECT savename FROM ind WHERE typ = 1"
+						),
+						[],
+						function (t, results)
+						{
+							if(results.rowsAffected < 1) {
+								navigator.notification.confirm('Sie haben noch keine Klasse festgelegt!',onConfirm_noclass,'MM-BBS','Ok,Abbrechen' );
+							} 
+						}
+					);
+				});  
+			}
+			function onConfirm_noclass(button) {
+				if(button ==1) {
+					window.plugins.statusBarNotification.notify(1,"Gaylord", "Ich kenne einen schwulen Henny");
+				} else {
+					alert("OK!! :(");
+				}
+			}
+        </script>
+    </head>
+    <body>
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header">
+                <h3>
+                    MM-BBS
+                </h3>
+            </div>
+            <div data-role="content">
+                <ul data-role="listview" data-divider-theme="a" data-inset="true">
+                    <li data-role="list-divider" role="heading">
+                        Main
+                    </li>
+                    <li data-theme="a">
+                        <a href="pages/plan.html" data-transition="slide">
+                            Stundenplan
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="pages/vplan.html" data-transition="slide">
+                            Vertretungsplan
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="pages/bplan.html" data-transition="slide">
+                            Blockplan
+                        </a>
+                    </li>
+                    <li data-role="list-divider" role="heading">
+                        Sonstiges
+                    </li>
+                    <li data-theme="a">
+                        <a href="pages/options.html" data-transition="slide">
+                            Optionen
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="pages/about.html" data-transition="slide">
+                            Über
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

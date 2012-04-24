@@ -1,0 +1,28 @@
+<div data-role="page" id="vplan" data-theme="a">
+
+	<div data-role="header">
+		<a href="../index.html" data-role="button" data-icon="back">Main</a>
+		<h1>Vertretungsplan</h1>
+		<a href="#" id="r_vplan" data-role="button" data-icon="refresh" data-iconpos="right">Reload</a>
+	</div>
+
+	<div data-role="content" data-theme="a" id="vplan_con">	
+	</div>
+	
+<script type="text/javascript">
+$("#r_vplan").bind("click",function() { reloadvplan() });
+function reloadvplan() {
+	$.ajax({
+			url: 'http://192.168.1.227/plan.php',
+			success: function(data) {
+				$("#vplan").die();
+				$("#vplan").live('pageshow', function ()
+				{
+					$('#vplan_con').html(data);
+				});
+			}
+		});
+}
+reloadvplan();
+</script>
+</div>
